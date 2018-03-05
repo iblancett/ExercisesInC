@@ -12,20 +12,18 @@ student repository.
 **Bits and bytes**
 
 1) Suppose you have the value 128 stored as an unsigned 8-bit number.  What happens if you convert 
-it to a 16-bit number and accidentally apply sign extension?
+it to a 16-bit number and accidentally apply sign extension? It makes the value negative
 
 2) Write a C expression that computes the two's complement of 12 using the XOR bitwise operator. 
 Try it out and confirm that the result is interpreted as -12.
+(1100 ^ 1111) + 1
 
-3) Can you guess why IEEE floating-point uses biased integers to represent the exponent rather than a
-sign bit or two's complement?
+3) Can you guess why IEEE floating-point uses biased integers to represent the exponent rather than a sign bit or two's complement? Biased integers can represent both large and extremely small (depending on the sign of the exponent) in a more condensed fashion than two's complement.
 
-4) Following the example in Section 5.3, write the 32-bit binary representation of -13 in single precision 
-IEEE floating-point.  What would you get if you accidentally interpreted this value as an integer?
+4) Following the example in Section 5.3, write the 32-bit binary representation of -13 in single precision IEEE floating-point.  What would you get if you accidentally interpreted this value as an integer?
 
-5) Write a function that takes a string and converts from lower-case to upper-case by flipping the sixth bit.  
+5) Write a function that takes a string and converts from lower-case to upper-case by flipping the sixth bit.
 As a challenge, you can make a faster version by reading the string 32 or 64 bits at a time, rather than one
 character at a time.  This optimization is made easier if the length of the string is a multiple of 4 or 8 bytes.
-
 
 

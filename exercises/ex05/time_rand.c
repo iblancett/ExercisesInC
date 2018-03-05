@@ -36,10 +36,10 @@ double get_seconds() {
 iters: number of times to call the function
 func: function to call
 */
-double time_func(int iters, float(*func)())
+double time_func(int iters, double (*func)())
 {
     int i;
-    float f;
+    double f;
     double t0, t1;
 
     srandom(time(NULL));
@@ -59,21 +59,21 @@ main(int argc, char *argv[])
     int iters = 100000000;
     int seed = 17;
 
-    time = time_func(iters, dummy);
-    printf("%f ms \t dummy\n", time);
+    //time = time_func(iters, dummy);
+    //printf("%f ms \t dummy\n", time);
 
-    time = time_func(iters, dummy2);
-    printf("%f ms \t dummy2\n", time);
+    //time = time_func(iters, dummy2);
+    //printf("%f ms \t dummy2\n", time);
 
-    time = time_func(iters, random_float);
+    time = time_func(iters, random_double);
     printf("%f ms \t random_float\n", time);
 
-    time = time_func(iters, my_random_float);
+    time = time_func(iters, my_random_double);
     printf("%f ms \t my_random_float\n", time);
 
-    time = time_func(iters, my_random_float2);
-    printf("%f ms \t my_random_float2\n", time);
+    //time = time_func(iters, my_random_float2);
+    //printf("%f ms \t my_random_float2\n", time);
 
-    time = time_func(iters, random_float);
-    printf("%f ms \t random_float\n", time);
+    //time = time_func(iters, random_float);
+    //printf("%f ms \t random_float\n", time);
 }
