@@ -32,8 +32,18 @@ typedef struct {
 * returns: new Regex
 */
 Regex *make_regex(char *pattern, int flags) {
-    // FILL THIS IN!
-    return NULL;
+
+    regex_t re;
+    Regex *new_regex = malloc(2*sizeof(Regex));
+    int comp_status;
+
+    comp_status = regcomp(&re,pattern,flags);
+
+    (*new_regex).inner_struct[1] = re;
+    
+
+    return new_regex;
+   
 }
 
 /* Checks whether a regex matches a string.
@@ -43,7 +53,13 @@ Regex *make_regex(char *pattern, int flags) {
 * returns: 1 if there's a match, 0 otherwise
 */
 int regex_match(Regex *regex, char *s) {
-    // FILL THIS IN!
+
+    int exec_status;
+
+    exec_status = regexec(&(*regex).inner_struct[1], s, (size_t)0, NULL, 0);
+    if(exec_status == 0) {
+      return 1;
+    }    
     return 0;
 }
 
@@ -52,7 +68,7 @@ int regex_match(Regex *regex, char *s) {
 * regex: Regex
 */
 void regex_free(Regex *regex) {
-    // FILL THIS IN!
+    regfree(&(*regex).inner_struct[1]);
 }
 
 
