@@ -178,8 +178,9 @@ int hash_hashable(Hashable *hashable)
 */
 int equal_int (void *ip, void *jp)
 {
-    // FILL THIS IN!
-    return 0;
+    int *xp = ip;
+    int *yp = jp;
+    return (*xp == *yp);
 }
 
 
@@ -192,7 +193,9 @@ int equal_int (void *ip, void *jp)
 */
 int equal_string (void *s1, void *s2)
 {
-    // FILL THIS IN!
+    if (strcmp(s1,s2)){
+        return 1;
+    }
     return 0;
 }
 
