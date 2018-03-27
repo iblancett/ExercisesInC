@@ -22,11 +22,11 @@ int read_element(int *array, int index) {
 int main()
 {
     int never_allocated;
-    int *free_twice = malloc(sizeof (int));
-    int *use_after_free = malloc(sizeof (int));
-    int *never_free = malloc(sizeof (int));
+    int *free_twice = malloc(sizeof(int));
+    int *use_after_free = malloc(sizeof(int));
+    int *never_free = malloc(sizeof(int));
     int array1[100];
-    int *array2 = malloc(100 * sizeof (int));
+    int *array2 = malloc(100*sizeof (int));
 
     // valgrind does not bounds-check static arrays
     read_element(array1, -1);

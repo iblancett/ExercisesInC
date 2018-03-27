@@ -53,7 +53,9 @@ void print_list(Node *list) {
 * returns: head of modified list
 */
 Node *pop(Node *list, int *value_p) {
-    // FILL THIS IN
+    Node *first = list;
+    list = (*list).next;
+    value_p = &(*first).val;
     return list;
 }
 

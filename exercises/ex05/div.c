@@ -26,8 +26,21 @@ uint32_t get_exponent(float x) {
 */
 float div_by_pow_2(float x, int n)
 {
-    // TODO: fill this in
-    return x;
+    int mant;
+    int exp = 126;
+    int mask = 1;
+    b.f = x;
+
+    while (b.x & mask) {
+        mask <<= 1;
+        exp--;
+    }
+
+
+    mant = x >> 8;
+    b.i = (exp << 23-n) | mant;
+
+    return b.f;
 }
 
 void main() {
