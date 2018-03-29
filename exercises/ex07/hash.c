@@ -302,15 +302,15 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 /* Looks up a key and returns the corresponding value, or NULL */
 Value *list_lookup(Node *list, Hashable *key)
 {
-    while(list->next != NULL) {
+    while(list != NULL) {
 
         if (list->key == key) {
             return list->value;
         }
 
         list = list->next;
-    return NULL;
     }
+    return NULL;
 }
 
 
@@ -355,12 +355,12 @@ void print_map(Map *map)
 void map_add(Map *map, Hashable *key, Value *value)
 {
     int hash = hash_hashable(key);
-
+    int n = map->n;
     if(map->lists[hash % n] == NULL) {
         map->lists[hash % n] = make_node(key, value, NULL);
     }
 
-    else() {
+    else {
         map->lists[hash % n] = prepend(key, value, map->lists[hash % n]);
     }
 }
@@ -369,6 +369,7 @@ void map_add(Map *map, Hashable *key, Value *value)
 /* Looks up a key and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
+    int n = map->n;
     return list_lookup(map->lists[hash_hashable(key) % n], key);
 }
 
