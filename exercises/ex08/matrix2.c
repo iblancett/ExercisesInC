@@ -54,10 +54,23 @@ void print_matrix(Matrix *matrix) {
     }
 }
 
+
+int cmpfunc(const void *p, const void *q)
+{
+    double *l = (double *)p;
+    double *r = (double *)q;
+    if (l[0] > r[0]) {
+        return -1;
+    }
+    if (l[0] < r[0]) {
+        return 1;
+    }
+    return 0;
+}
 /* Sort rows in descending order by first element.
 */
 void sort_matrix_rows(Matrix *matrix) {
-    // TODO: Write this function
+    qsort(matrix->rows, matrix->num_rows, sizeof(double *), cmpfunc);
 }
 
 /* Perform row reduction.
