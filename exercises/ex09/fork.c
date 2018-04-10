@@ -14,7 +14,7 @@ License: MIT License https://opensource.org/licenses/MIT
 #include <sys/types.h>
 #include <wait.h>
 
-
+int test_global = 0;
 // errno is an external global variable that contains
 // error information
 extern int errno;
@@ -45,6 +45,9 @@ int main(int argc, char *argv[])
     pid_t pid;
     double start, stop;
     int i, num_children;
+    int test_stack = 0;
+    int *test_heap = malloc(sizeof(int));
+    *test_heap = 0;
 
     // the first command-line argument is the name of the executable.
     // if there is a second, it is the number of children to create.
@@ -73,6 +76,19 @@ int main(int argc, char *argv[])
         /* see if we're the parent or the child */
         if (pid == 0) {
             child_code(i);
+
+            // showed that global is not shared because value does not keep increasing
+            test_global++;
+            printf("The value of child %d's global test variable is %d\n", i, test_global);
+
+            // showed that stack is not shared because value does not keep increasing
+            test_stack++;
+            printf("The value of child %d's stack test variable is %d\n", i, test_stack);
+
+            // showed that heap is not shared because value does not keep increasing
+            (*test_heap)++;
+            printf("The value of child %d's heap test variable is %d\n", i, *test_heap);
+
             exit(i);
         }
     }

@@ -10,7 +10,7 @@ License: Creative Commons Attribution-ShareAlike 3.0
 #include <pthread.h>
 #include <semaphore.h>
 
-#define NUM_CHILDREN 2
+#define NUM_CHILDREN 10000
 
 // UTILITY FUNCTIONS
 
