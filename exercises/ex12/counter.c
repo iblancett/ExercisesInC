@@ -8,14 +8,9 @@ License: GNU GPLv3
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-<<<<<<< HEAD
 #include <semaphore.h>
 
-#define NUM_CHILDREN 10000
-=======
->>>>>>> 3ddda47ca1a5ea9ff33f86f9062116c7850f9f3e
-
-#define NUM_CHILDREN 5
+#define NUM_CHILDREN 200
 
 /* Print an error message and exit.
 */

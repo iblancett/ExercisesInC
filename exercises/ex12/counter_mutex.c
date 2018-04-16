@@ -2,15 +2,17 @@
 
 Copyright 2014 Allen Downey
 License: GNU GPLv3
-Time to run: .064s
+Time to run: .145s
 
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include "mutex.h"
 
 #define NUM_CHILDREN 2
+
 
 void perror_exit(char *s)
 {
@@ -31,6 +33,7 @@ typedef struct {
   int counter;
   int end;
   int *array;
+  Mutex *mutex;
 } Shared;
 
 Shared *make_shared(int end)
@@ -40,6 +43,7 @@ Shared *make_shared(int end)
 
   shared->counter = 0;
   shared->end = end;
+  shared->mutex = make_mutex();
 
   shared->array = check_malloc(shared->end * sizeof(int));
   for (i=0; i<shared->end; i++) {
@@ -68,12 +72,14 @@ void join_thread(pthread_t thread)
   }
 }
 
+
 void child_code(Shared *shared)
 {
   printf("Starting child at counter %d\n", shared->counter);
-
   while (1) {
+    mutex_lock(shared->mutex);
     if (shared->counter >= shared->end) {
+      mutex_unlock(shared->mutex);
       return;
     }
     shared->array[shared->counter]++;
@@ -82,6 +88,7 @@ void child_code(Shared *shared)
     if (shared->counter % 10000 == 0) {
       printf("%d\n", shared->counter);
     }
+    mutex_unlock(shared->mutex);
   }
 }
 
@@ -116,9 +123,11 @@ int main()
     child[i] = make_thread(entry, shared);
   }
 
+
   for (i=0; i<NUM_CHILDREN; i++) {
     join_thread(child[i]);
   }
+
 
   check_array(shared);
   return 0;
