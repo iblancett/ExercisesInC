@@ -44,13 +44,15 @@ void child_code(Shared *shared)
     // you can use; you may add one or more additional Mutex or Cond
     // objects.
 
+    mutex_lock(shared->mutex);
     printf("Child part 1\n");
     shared->counter++;
-    while (shared->counter < NUM_CHILDREN) {
-        // do nothing
-        // Running this loop over and over is called busy waiting.
+    mutex_unlock(shared->mutex);
+    if (shared->counter == NUM_CHILDREN) {
+      for (int i = 0; i<NUM_CHILDREN; i++) {
+      printf("Child part 2\n");
     }
-    printf("Child part 2\n");
+  }
 }
 
 /* Entry point for the child threads.
