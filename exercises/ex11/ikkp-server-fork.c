@@ -90,10 +90,12 @@ void bind_to_port(int socket, int port) {
 */
 int say(int socket, char *s)
 {
-    int res = send(socket, s, strlen(s), 0);
-    if (res == -1)
-        error("Error talking to the client");
-    return res;
+    int result = send(socket, s, strlen(s), 0);
+    if (result == -1)
+        error("Can't talk to the server");
+
+    memset((char *)0x0, 1, 100);
+    return result;
 }
 
 /* Read from the client.
@@ -155,28 +157,32 @@ int main(int argc, char *argv[])
         printf("Waiting for connection on port %d\n", port);
         int connect_d = open_client_socket();
 
-        if (say(connect_d, intro_msg) == -1) {
-            close(connect_d);
-            continue;
+        if(!fork()) {
+          close(listener_d);
+          if (say(connect_d, intro_msg) == -1) {
+              close(connect_d);
+              continue;
+          }
+
+          read_in(connect_d, buf, sizeof(buf));
+          // TODO (optional): check to make sure they said "Who's there?"
+
+          if (say(connect_d, "Surrealist giraffe.\n") == -1) {
+              close(connect_d);
+              continue;
+          }
+
+          read_in(connect_d, buf, sizeof(buf));
+          // TODO (optional): check to make sure they said "Surrealist giraffe who?"
+
+          if (say(connect_d, "Bathtub full of brightly-colored machine tools.\n") == -1) {
+              close(connect_d);
+              continue;
+          }
+          close(connect_d);
+          exit(0);
         }
-
-        read_in(connect_d, buf, sizeof(buf));
-        // TODO (optional): check to make sure they said "Who's there?"
-
-        if (say(connect_d, "Surrealist giraffe.\n") == -1) {
-            close(connect_d);
-            continue;
-        }
-
-        read_in(connect_d, buf, sizeof(buf));
-        // TODO (optional): check to make sure they said "Surrealist giraffe who?"
-
-        if (say(connect_d, "Bathtub full of brightly-colored machine tools.\n") == -1) {
-            close(connect_d);
-            continue;
-        }
-
         close(connect_d);
-    }
-    return 0;
+      }
+      return 0;
 }

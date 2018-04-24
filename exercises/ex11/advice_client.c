@@ -1,4 +1,4 @@
-/* Code from Head First C.
+/* Adapted code from Head First C for advice_server.c
 
 */
 
@@ -55,25 +55,19 @@ int main(int argc, char *argv[])
     char buf[255], rec[256];
 
     /* connect to server */
-    d_sock = open_socket("en.wikipedia.org", "80");
-
-    /* request the resource */
-    sprintf(buf, "GET /wiki/%s http/1.1\r\n", argv[1]);
-    say(d_sock, buf);
+    d_sock = open_socket("127.0.0.1", "30000");
 
     /* send host name and required blank line */
-    say(d_sock, "Host: en.wikipedia.org\r\n\r\n");
+    say(d_sock, "Host: 127.0.0.1\r\n\r\n");
 
     /* display page on stdout in 255 byte chunks */
     bytes_received = recv(d_sock, rec, 255, 0);
-    while (bytes_received) {
-        if (bytes_received == EOF)
-            error("can't read from server");
+    if (bytes_received == EOF)
+      error("can't read from server");
 
-        rec[bytes_received] = '\0';
-        printf("%s", rec);
-        bytes_received = recv(d_sock, rec, 255, 0);
-    }
+    rec[bytes_received] = '\0';
+    printf("%s", rec);
+
     close(d_sock);
 
     return 0;
